@@ -6,8 +6,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical"
-                  tools:ignore="MissingConstraints">
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -22,5 +25,12 @@
         ></Button>
     </LinearLayout>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
