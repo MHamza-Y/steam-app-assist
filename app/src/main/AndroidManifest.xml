@@ -10,7 +10,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <service android:name=".service.SteamAppAccessibilityService"
+        <service android:name=".services.SteamAppAccessibilityService"
                  android:label="Steam Assist Accessibility Service"
                  android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
             <meta-data
@@ -21,7 +21,7 @@
             </intent-filter>
         </service>
         <service
-                android:name=".service.BubbleService"
+                android:name=".services.BubbleService"
                 android:enabled="true"
                 android:exported="false"></service>
         <activity android:name=".MainActivity">

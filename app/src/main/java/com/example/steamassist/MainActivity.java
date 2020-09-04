@@ -1,10 +1,8 @@
 package com.example.steamassist;
 
-import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ServiceInfo;
 import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
@@ -13,7 +11,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.steamassist.service.BubbleService;
+import com.example.steamassist.services.BubbleService;
 
 import java.util.List;
 
