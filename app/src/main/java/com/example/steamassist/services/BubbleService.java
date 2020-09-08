@@ -12,16 +12,20 @@ import android.widget.ImageButton;
 import android.widget.ToggleButton;
 import androidx.annotation.Nullable;
 import com.example.steamassist.R;
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BubbleService extends Service implements View.OnClickListener {
-
+    public static BubbleService instance;
     private WindowManager mWindowManager;
     private View mOverlayView;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        instance = this;
         mOverlayView = LayoutInflater.from(this).inflate(R.layout.overlay_layout, null);
 
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
@@ -38,7 +42,9 @@ public class BubbleService extends Service implements View.OnClickListener {
 
         ToggleButton checkAll  = mOverlayView.findViewById(R.id.check_all);
         ImageButton close = mOverlayView.findViewById(R.id.buttonClose);
+        ImageButton groupItems = mOverlayView.findViewById(R.id.group_items);
         checkAll.setOnClickListener(this);
+        groupItems.setOnClickListener(this);
         close.setOnClickListener(this);
 
 
@@ -59,6 +65,7 @@ public class BubbleService extends Service implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        instance = null;
         if (mOverlayView != null) mWindowManager.removeView(mOverlayView);
     }
 
@@ -69,7 +76,9 @@ public class BubbleService extends Service implements View.OnClickListener {
                 //switching views
                 checkAll(v);
                 break;
-
+            case R.id.group_items:
+                groupNodes();
+                break;
             case R.id.buttonClose:
                 //closing the widget
                 stopSelf();
@@ -84,5 +93,12 @@ public class BubbleService extends Service implements View.OnClickListener {
         }
     }
 
+    private void groupNodes() {
+        JSONArray itemGroups = SteamAppAccessibilityService.instance.group_items();
+        List<View> itemGroupViews = new ArrayList<>();
+        for(int i=0;i<itemGroups.length();i++) {
+
+        }
+    }
 
 }

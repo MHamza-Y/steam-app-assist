@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.steamassist.services.BubbleService;
+import com.example.steamassist.services.SteamAppAccessibilityService;
 
 import java.util.List;
 
@@ -20,28 +22,35 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        enablePermissions();
         setContentView(R.layout.activity_main);
+
+
     }
 
-    public void clickMe(View view){
-        TextView clickMeText = findViewById(R.id.clickMeText);
-        clickMeText.setText("clicked");
-        List<AccessibilityServiceInfo> al =isAccessibilityServiceEnabled(getApplicationContext());
-        Log.i("size",""+al.size());
-        for (AccessibilityServiceInfo info: al) {
-            Log.i("service:",info.toString());
-        }
+    public void clickMe(View view) {
+
+        Log.i("Overlay Enable Button", "Starting Overlay Service");
+        startService(new Intent(MainActivity.this, BubbleService.class));
+        finish();
+
+    }
+
+
+    public void enablePermissions() {
         if (!Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
             startActivityForResult(intent, 0);
         }
-        startService(new Intent(MainActivity.this, BubbleService.class));
-        finish();
+        if (!isAccessServiceEnabled(getApplicationContext(), SteamAppAccessibilityService.class)) {
+            startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+
+        }
     }
 
-    public static List<AccessibilityServiceInfo> isAccessibilityServiceEnabled(Context context) {
-        AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
-        List<AccessibilityServiceInfo> enabledServices = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK);
-        return  enabledServices;
+    public boolean isAccessServiceEnabled(Context context, Class accessibilityServiceClass) {
+        String prefString = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+
+        return prefString != null && prefString.contains(context.getPackageName() + "/" + accessibilityServiceClass.getName());
     }
 }

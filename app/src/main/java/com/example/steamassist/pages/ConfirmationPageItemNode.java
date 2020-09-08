@@ -2,9 +2,13 @@ package com.example.steamassist.pages;
 
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.List;
 
 public class ConfirmationPageItemNode {
     public AccessibilityNodeInfo item;
@@ -25,11 +29,11 @@ public class ConfirmationPageItemNode {
     }
 
     public String getItemPrice() {
-        return (String) itemPriceNode.getText();
+        return ""+itemPriceNode.getText();
     }
 
     public String getItemTitle() {
-        return (String) itemTitleNode.getText();
+        return ""+itemTitleNode.getText();
     }
 
     public AccessibilityNodeInfo getItemCheckNode() {
@@ -52,5 +56,36 @@ public class ConfirmationPageItemNode {
             Log.i("Check Button","uncheck");
             itemCheckNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }
+    }
+
+    public static JSONArray groupNodes(List<ConfirmationPageItemNode> nodes) {
+        JSONArray nodeGroups = new JSONArray();
+        for (ConfirmationPageItemNode node:nodes) {
+            try {
+                nodeGroups = addToArr(nodeGroups,node);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return nodeGroups;
+    }
+
+    static JSONArray addToArr(JSONArray nodeGroups,ConfirmationPageItemNode node) throws JSONException {
+        for(int i=0;i<nodeGroups.length();i++) {
+            JSONObject group = (JSONObject) nodeGroups.get(i);
+
+            ConfirmationPageItemNode gNode = (ConfirmationPageItemNode) group.get("node");
+            Boolean isMatch = gNode.getItemTitle().equals(node.getItemTitle())&&gNode.getItemPrice().equals(node.getItemPrice());
+            if(isMatch) {
+                group.put("quantity",(Integer) group.get("quantity")+1);
+                return nodeGroups;
+            }
+        }
+        JSONObject newGroup = new JSONObject();
+        newGroup.put("node",node);
+        newGroup.put("quantity",1);
+        nodeGroups.put(newGroup);
+        return nodeGroups;
     }
 }

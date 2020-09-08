@@ -6,25 +6,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-    <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:ignore="MissingConstraints">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hello World!"
-                android:id="@+id/clickMeText"
-        />
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Click Me"
-                android:onClick="clickMe"
-        ></Button>
-    </LinearLayout>
+    <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content"
+                                       android:elevation="@dimen/cardview_default_elevation"
+                                       app:cardCornerRadius="@dimen/cardview_default_radius"
+ android:layout_margin="32dp" tools:ignore="MissingConstraints">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. Launch Overlay\n2. Go To Steam app confirmations page\n3. Click to check all confirmations"
+ android:layout_marginTop="32dp"
 
+ android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+ android:textAlignment="gravity"                   android:id="@+id/clickMeText"
+            />
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Launch"
+                    android:onClick="clickMe"
+                    android:layout_margin="16dp"
+            ></Button>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

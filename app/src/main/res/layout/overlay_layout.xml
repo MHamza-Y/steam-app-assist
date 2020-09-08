@@ -30,6 +30,7 @@
                          android:backgroundTint="#799905"
                          android:elevation="4dp"
                          android:layout_marginLeft="16dp"
+                         android:id="@+id/group_items"
             />
             <ImageButton
                     android:id="@+id/buttonClose"
