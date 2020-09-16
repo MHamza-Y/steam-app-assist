@@ -17,8 +17,8 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BubbleService extends Service implements View.OnClickListener {
-    public static BubbleService instance;
+public class ConfirmationsOverlayService extends Service implements View.OnClickListener {
+    public static ConfirmationsOverlayService instance;
     private WindowManager mWindowManager;
     private View mOverlayView;
 

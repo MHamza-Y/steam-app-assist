@@ -1,21 +1,15 @@
 package com.example.steamassist;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.steamassist.services.BubbleService;
+import com.example.steamassist.services.ConfirmationsOverlayService;
 import com.example.steamassist.services.SteamAppAccessibilityService;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public void clickMe(View view) {
 
         Log.i("Overlay Enable Button", "Starting Overlay Service");
-        startService(new Intent(MainActivity.this, BubbleService.class));
+        startService(new Intent(MainActivity.this, ConfirmationsOverlayService.class));
         finish();
 
     }

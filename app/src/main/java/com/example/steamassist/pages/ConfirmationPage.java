@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
-import com.example.steamassist.services.BubbleService;
+import com.example.steamassist.services.ConfirmationsOverlayService;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class ConfirmationPage {
         return itemGroups;
     }
     private void noItemsFoundToast() {
-        Context context = BubbleService.instance.getApplicationContext();
+        Context context = ConfirmationsOverlayService.instance.getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, "No confirmations found", duration);
         toast.show();
