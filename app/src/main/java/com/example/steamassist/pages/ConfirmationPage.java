@@ -1,15 +1,14 @@
 package com.example.steamassist.pages;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
+import com.example.steamassist.services.ConfirmationsOverlayService;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ConfirmationPage {
     List<ConfirmationPageItemNode> items;
@@ -19,14 +18,23 @@ public class ConfirmationPage {
     public ConfirmationPage(AccessibilityNodeInfo rootNode) {
         this.rootNode = rootNode;
         items = new ArrayList<>();
-        extractItemsRootNodes(rootNode)
-                .forEach(item -> items.add(new ConfirmationPageItemNode(item))
-                );
+        try {
+            extractItemsRootNodes(rootNode)
+                    .forEach(item -> {
+                                if (item != null) {
+                                    items.add(new ConfirmationPageItemNode(item));
+                                }
+                            }
+                    );
+        } catch (Exception e) {
+            Log.e("Confirmation Items", "Not found");
+            noItemsFoundToast();
+        }
     }
 
     private List<AccessibilityNodeInfo> extractItemsRootNodes(AccessibilityNodeInfo currNode) {
         List<AccessibilityNodeInfo> itemsRootNodes = new ArrayList<>();
-        if(currNode!=null) {
+        if (currNode != null) {
             if (currNode.getViewIdResourceName() != null && currNode.getViewIdResourceName().startsWith(ITEMS_NODE_START_STRING)) {
                 Log.i("item node", "found");
                 Log.i("Node", currNode.toString());
@@ -43,21 +51,36 @@ public class ConfirmationPage {
     public List<ConfirmationPageItemNode> getItems() {
         return items;
     }
+
     public void itemsCheckAll(Boolean value) {
         items.forEach(item -> {
-            if(value) {
+            if (value) {
                 item.checkNode();
             } else {
                 item.uncheckNode();
             }
         });
     }
-    void printChildNodes(AccessibilityNodeInfo nodeInfo,int l) {
+
+    /*void printChildNodes(AccessibilityNodeInfo nodeInfo,int l) {
         Log.i(""+l,nodeInfo.toString());
         for(int i=0;i<nodeInfo.getChildCount();i++) {
 
             printChildNodes(nodeInfo.getChild(i),l+1);
         }
+    }*/
+    public JSONArray groupItems() {
+        JSONArray itemGroups = ConfirmationPageItemNode.groupNodes(items);
+        if(itemGroups.length()<1) {
+            noItemsFoundToast();
+        }
+        return itemGroups;
     }
+    private void noItemsFoundToast() {
+        Context context = ConfirmationsOverlayService.instance.getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, "No confirmations found", duration);
+        toast.show();
 
+    }
 }

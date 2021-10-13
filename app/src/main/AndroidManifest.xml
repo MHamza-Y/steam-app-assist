@@ -21,7 +21,7 @@
             </intent-filter>
         </service>
         <service
-                android:name=".services.BubbleService"
+                android:name=".services.ConfirmationsOverlayService"
                 android:enabled="true"
                 android:exported="false"></service>
         <activity android:name=".MainActivity">
